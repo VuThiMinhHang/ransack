@@ -1,0 +1,59 @@
+<h2>Ransack</h2>
+<div class="container">
+  <div class="row">
+    <%#= search_form_for @search, class: "form-inline" do |f| %>
+      <!-- <div class="form-group">
+        <%#= f.label :name_cont, 'User Name:' %>
+        <%#= f.text_field :name_cont, class: "form-control" %><br>
+      </div>
+      <div class="form-group">
+        <%#= f.label :age_gteq, 'Age >= ' %>
+        <%#= f.text_field :age_gteq, class: "form-control" %><br>
+      </div>
+      <div class="form-group">
+        <%#= f.label :name_or_nick_name_cont, 'Name or Nick Name:' %>
+        <%#= f.text_field :name_or_nick_name_cont, class: "form-control" %><br>
+      </div> -->
+      <%#= f.submit 'Search', class: "btn btn-default" %>
+    <%# end %>
+
+    <%= search_form_for @search, url: search_users_path, method: :post do |f| %>
+      <%= f.condition_fields do |c| %>
+        <%= c.attribute_fields do |a| %>
+          <%= a.attribute_select %>
+        <% end %>
+        <%= c.predicate_select %>
+        <%= c.value_fields do |v| %>
+          <%= v.text_field :value %>
+        <% end %>
+        <br>
+      <% end %>
+
+      Sort:
+      <%= f.sort_fields do |s| %>
+        <%= s.sort_select %>
+      <% end %><br>
+      <%= f.submit 'Search', class: "btn btn-default" %>
+    <% end %>
+  </div>
+</div><br>
+
+<div class="container">
+  <div class="row">
+    <table class="table table-bordered" style="width:50%">
+      <tr>
+        <th><%= sort_link(@search, :name, 'User Name') %></th>
+        <th><%= sort_link(@search, :age, 'Age') %></th>
+        <th><%= sort_link(@search, :nick_name, 'Nick Name') %></th>
+      </tr>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.name %></td>
+          <td><%= user.age %></td>
+          <td><%= user.nick_name %></td>
+        </tr>
+      <% end %>
+    </table><br>
+  </div>
+</div>
+<!--  -->
